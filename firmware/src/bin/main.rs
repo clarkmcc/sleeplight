@@ -11,16 +11,14 @@ use bt_hci::controller::ExternalController;
 use embassy_time::{Duration, Timer};
 use core::str::FromStr;
 use embassy_executor::Spawner;
-use embassy_futures::join::{join, join3};
+use embassy_futures::join::join3;
 use embassy_sync::blocking_mutex::raw::CriticalSectionRawMutex;
 use embassy_sync::channel::Channel;
-use embassy_sync::signal::Signal;
 use esp_hal::analog::adc::{Adc, AdcConfig, Attenuation};
 use esp_hal::clock::CpuClock;
 use esp_hal::gpio::{Input, InputConfig, Level, Output, OutputConfig};
-use esp_hal::peripherals::{ADC1, RNG};
 use esp_hal::rmt::Rmt;
-use esp_hal::rng::{Trng, TrngSource};
+use esp_hal::rng::{Trng};
 use esp_hal::time::Rate;
 use esp_hal::timer::timg::TimerGroup;
 use esp_radio::ble::controller::BleConnector;
@@ -38,8 +36,6 @@ fn panic(info: &core::panic::PanicInfo) -> ! {
 pub enum LightCommand {
     SetState(LightState)
 }
-
-static LIGHT_SIGNAL: Channel<CriticalSectionRawMutex, LightCommand, 8> = Channel::new();
 
 extern crate alloc;
 
@@ -67,18 +63,6 @@ async fn main(spawner: Spawner) -> ! {
     let config = esp_hal::Config::default().with_cpu_clock(CpuClock::max());
     let peripherals = esp_hal::init(config);
 
-    // let mut adc1_config = AdcConfig::new();
-    // let mut level_pin = adc1_config.enable_pin(peripherals.GPIO3, Attenuation::_11dB);
-    // let mut adc1 = Adc::new(peripherals.ADC1, adc1_config);
-
-    // let mut raw: u16 = 0;
-    // for _ in 0..5 {
-    //     raw = nb::block!(adc1.read_oneshot(&mut level_pin)).unwrap();
-    //     let voltage_mv = (raw as u32 * 3300 * 2) / 4095;
-    //     rprintln!("Voltage: {} {}", voltage_mv, raw);
-    //     Timer::after(Duration::from_millis(100)).await;
-    // }
-
     esp_alloc::heap_allocator!(#[esp_hal::ram(reclaimed)] size: 66320);
 
     let timg0 = TimerGroup::new(peripherals.TIMG0);
@@ -104,13 +88,6 @@ async fn main(spawner: Spawner) -> ! {
     // Pull GPIO10 high to turn on the boost converter
     let _boost = Output::new(peripherals.GPIO10, Level::High, OutputConfig::default());
 
-    // loop {
-    //     ring.set_color(Color::Red).await;
-    //     Timer::after(Duration::from_millis(100)).await;
-    //     ring.set_color(Color::Green).await;
-    //     Timer::after(Duration::from_millis(100)).await;
-    // }
-
     let stat1 = Input::new(peripherals.GPIO4, InputConfig::default());
     let stat2 = Input::new(peripherals.GPIO5, InputConfig::default());
 
@@ -118,34 +95,6 @@ async fn main(spawner: Spawner) -> ! {
     loop {
         rprintln!("in a loop")
     }
-
-    // let mut color = Hsv {
-    //     hue: 0,
-    //     sat: 255,
-    //     val: 255,
-    // };
-    // let mut data: RGB8;
-    // let level = 10;
-    //
-    // loop {
-    //     // led.write(brightness(gamma([RGB8::new(255, 0, 0); 8].into_iter()), 10)).await.unwrap();
-    //     // Timer::after(Duration::from_millis(30)).await;
-    //     // led.write(brightness(gamma([RGB8::new(255, 0, 0); 8].into_iter()), 0)).await.unwrap();
-    //     // Timer::after(Duration::from_millis(30)).await;
-    //     for hue in 0..=255u8 {
-    //         color.hue = hue;
-    //         data = hsv2rgb(color);
-    //         if let Err(e) = led.write(brightness(gamma([data; 8].into_iter()), level)).await {
-    //             rprintln!("LED write error at hue {}: {:?}", hue, e);
-    //         }
-    //         Timer::after(Duration::from_millis(10)).await;
-    //     }
-    // }
-
-    // loop {
-    //     rprintln!("Hello world!");
-    //     Timer::after(Duration::from_secs(1)).await;
-    // }
 }
 
 #[gatt_server]
@@ -312,7 +261,7 @@ async fn ble_handle_conn(server: &BleServer<'_>, conn: &GattConnection<'_, '_, D
             GattConnectionEvent::Disconnected { reason } => break reason,
             GattConnectionEvent::Gatt { event } => {
                 match &event {
-                    GattEvent::Read(event) => {
+                    GattEvent::Read(_) => {
                     }
                     GattEvent::Write(event) => {
                         rprintln!("[ble_handle_conn] event: handle={},data={:?}", event.handle(), event.data());
