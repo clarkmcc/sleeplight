@@ -5756,6 +5756,12 @@
 		(uuid "2f284ad6-086c-4d33-968e-4909c892c07d")
 	)
 	(junction
+		(at 140.97 137.16)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "31f90e48-4cba-439b-972a-5fe3a253c9f1")
+	)
+	(junction
 		(at 271.78 213.36)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5904,12 +5910,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "92953035-5cf6-4add-be4e-7a1fa14b8351")
-	)
-	(junction
-		(at 148.59 137.16)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9a6e79de-e672-4f0a-8c0a-48807ba70242")
 	)
 	(junction
 		(at 318.77 215.9)
@@ -6162,6 +6162,16 @@
 			(type default)
 		)
 		(uuid "0105c769-cb66-424a-b16f-ee36bb27dcff")
+	)
+	(wire
+		(pts
+			(xy 142.24 139.7) (xy 140.97 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "018ba40b-4cf0-477e-9e41-f9d36c954cdc")
 	)
 	(wire
 		(pts
@@ -6695,6 +6705,16 @@
 	)
 	(wire
 		(pts
+			(xy 140.97 137.16) (xy 148.59 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "42c2d59d-2542-4d76-ae18-0e8c3c01ea15")
+	)
+	(wire
+		(pts
 			(xy 271.78 185.42) (xy 318.77 185.42)
 		)
 		(stroke
@@ -6882,16 +6902,6 @@
 			(type default)
 		)
 		(uuid "5ab1d906-d476-4c95-9b1a-833c39fa9395")
-	)
-	(wire
-		(pts
-			(xy 148.59 137.16) (xy 148.59 139.7)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5b9220f0-455a-4bd6-96ca-2ff12637b3c5")
 	)
 	(wire
 		(pts
@@ -7085,7 +7095,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 137.16) (xy 148.59 137.16)
+			(xy 135.89 137.16) (xy 140.97 137.16)
 		)
 		(stroke
 			(width 0)
@@ -7815,6 +7825,16 @@
 	)
 	(wire
 		(pts
+			(xy 147.32 139.7) (xy 148.59 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba63bc55-c357-4d3b-aa0d-62a8f06847b9")
+	)
+	(wire
+		(pts
 			(xy 271.78 142.24) (xy 281.94 142.24)
 		)
 		(stroke
@@ -7992,6 +8012,16 @@
 			(type default)
 		)
 		(uuid "d05a81dc-db70-4ebd-9c20-ea80efdcb6b8")
+	)
+	(wire
+		(pts
+			(xy 140.97 139.7) (xy 140.97 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d164ed1b-2ead-4975-99a3-50c8b929c298")
 	)
 	(wire
 		(pts
@@ -10321,6 +10351,73 @@
 			(project "SleepLight"
 				(path "/b3e37ba4-2584-4b8f-982e-8497657a80ab"
 					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small")
+		(at 144.78 139.7 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "350b82f4-ed5f-4d3b-9284-1b97f58286d7")
+		(property "Reference" "R4"
+			(at 144.78 142.494 90)
+			(effects
+				(font
+					(size 1.016 1.016)
+				)
+			)
+		)
+		(property "Value" "330k"
+			(at 144.78 145.034 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 144.78 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 144.78 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small symbol"
+			(at 144.78 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "39533593-fd37-4626-8f86-988cf5fbf8e0")
+		)
+		(pin "2"
+			(uuid "8c267fb7-b369-498d-a9b9-b62ab06d6209")
+		)
+		(instances
+			(project "SleepLight_v2"
+				(path "/b3e37ba4-2584-4b8f-982e-8497657a80ab"
+					(reference "R4")
 					(unit 1)
 				)
 			)
